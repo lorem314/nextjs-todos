@@ -2,9 +2,9 @@
 import { PrismaClient } from "@prisma/client"
 
 import { getServerSession } from "next-auth/next"
-import { SessionProvider } from "next-auth/react"
 import { options } from "@/app/api/auth/[...nextauth]/options"
 
+import { serverClient } from "@/trpc/serverClient"
 import AuthProvider from "@/components/AuthProvider"
 import UserProfile from "@/components/UserProfile"
 import TodoForm from "@/components/TodoForm"
@@ -30,6 +30,7 @@ export default async function Home() {
   // })
   // console.log("newTodo", newTodo)
   const session = await getServerSession(options)
+  const todos = await serverClient.getTodos()
 
   return (
     <div className="max-w-xl mt-16 mx-auto p-4 bg-white shadow-lg rounded-lg overflow-hidden">
@@ -39,7 +40,7 @@ export default async function Home() {
       <AuthProvider session={session}>
         <UserProfile />
         <TodoForm />
-        <TodoList todos={[]} />
+        <TodoList initialTodos={todos} />
       </AuthProvider>
     </div>
   )

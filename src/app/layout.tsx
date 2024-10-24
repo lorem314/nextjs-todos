@@ -1,5 +1,7 @@
 import "./globals.css"
 
+import Provider from "@/trpc/Provider"
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -7,7 +9,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`bg-gray-200`}>{children}</body>
+      <body className={`bg-gray-200`}>
+        <Provider>{children}</Provider>
+      </body>
     </html>
   )
 }
