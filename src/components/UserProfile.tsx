@@ -9,7 +9,7 @@ export default function UserProfile() {
   const session = useSession()
 
   return (
-    <div className="my-2">
+    <div className="my-4">
       {session.data ? (
         <div className="flex items-center gap-2">
           <Image
@@ -31,7 +31,6 @@ export default function UserProfile() {
           <LoginButton />
           <div className="text-sm">
             <p>可通过 Github 账户登录</p>
-            <p>登录后添加的待办事项只有本人能够删除</p>
           </div>
         </div>
       )}

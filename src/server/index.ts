@@ -7,13 +7,25 @@ const prisma = new PrismaClient()
 export const appRouter = router({
   getTodos: publicProcedure.query(async () => {
     const todos = await prisma.todo.findMany()
-    return todos
+    return todos.sort(
+      (prev, next) =>
+        new Date(next.createdAt).getTime() - new Date(prev.createdAt).getTime()
+    )
   }),
   addTodo: publicProcedure
-    .input(z.object({ text: z.string() }))
+    .input(
+      z.object({
+        text: z.string(),
+        authorEmail: z.string().optional(),
+        authorName: z.string().optional(),
+        authorAvatar: z.string().optional(),
+      })
+    )
     .mutation(async (req) => {
-      const { text } = req.input
-      await prisma.todo.create({ data: { text } })
+      const { text, authorEmail, authorAvatar, authorName } = req.input
+      await prisma.todo.create({
+        data: { text, authorEmail, authorAvatar, authorName },
+      })
       return true
     }),
   toggleIsDone: publicProcedure

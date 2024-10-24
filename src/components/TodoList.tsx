@@ -1,40 +1,30 @@
 "use client"
-import { trpc } from "../trpc/client"
-import { serverClient } from "@/trpc/serverClient"
+import type { Todo } from "@prisma/client"
+
+import TodoItem from "./TodoItem"
 
 export default function TodoList({
-  initialTodos,
+  todos,
+  removeTodoById,
+  toggleTodoById,
 }: {
-  initialTodos: Awaited<ReturnType<(typeof serverClient)["getTodos"]>>
+  todos: Todo[]
+  removeTodoById: (id: number) => void
+  toggleTodoById: (id: number, isDone: boolean) => void
 }) {
-  const todos = trpc.getTodos.useQuery(undefined, {
-    initialData: initialTodos.map((todo) => {
-      return {
-        ...todo,
-        createdAt: todo.createdAt.toLocaleDateString("zh-CN"),
-      }
-    }),
-  })
-
   return (
-    <div>
-      {/* <div>{JSON.stringify(todos.data)}</div> */}
-      <ul>
-        {todos.data.map((todo) => {
-          return (
-            <li key={todo.id}>
-              <label htmlFor={`todo-${todo.id}`}>
-                <input
-                  type="checkbox"
-                  id={`todo-${todo.id}`}
-                  // checked={todo.isDone}
-                />
-                {todo.text}
-              </label>
-            </li>
-          )
-        })}
-      </ul>
-    </div>
+    <ul>
+      {todos.map((todo) => {
+        return (
+          <li key={todo.id}>
+            <TodoItem
+              todo={todo}
+              removeTodoById={removeTodoById}
+              toggleTodoById={toggleTodoById}
+            />
+          </li>
+        )
+      })}
+    </ul>
   )
 }

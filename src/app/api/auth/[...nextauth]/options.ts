@@ -12,8 +12,8 @@ export const options: AuthOptions = {
       },
     }),
   ],
-  pages: {
-    signIn: "/login",
-    signOut: "/logout",
-  },
+  // pages: {
+  //   signIn: "/login",
+  //   signOut: "/logout",
+  // },
 }
