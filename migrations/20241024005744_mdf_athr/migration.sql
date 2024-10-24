@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Todo" ALTER COLUMN "authorEmail" DROP NOT NULL,
+ALTER COLUMN "authorName" DROP NOT NULL,
+ALTER COLUMN "authorAvatar" DROP NOT NULL;
